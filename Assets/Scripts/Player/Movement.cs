@@ -23,10 +23,10 @@ public class Movement : MonoBehaviour
     [SerializeField] float senseY;
     float yRotation;
     float xRotation;
-    public void MoveCamera(Vector2 mouseInput)
+    public void MoveCamera(Vector2 mouseInput, float deltaTime)
     {
-        yRotation += mouseInput.x * Time.deltaTime * senseX;
-        xRotation -= mouseInput.y * Time.deltaTime * senseY;
+        yRotation += mouseInput.x * deltaTime * senseX;
+        xRotation -= mouseInput.y * deltaTime * senseY;
 
         xRotation = Mathf.Clamp(xRotation, -90, 90);
         playerCamera.rotation = Quaternion.Euler(xRotation, yRotation, 0);
@@ -39,12 +39,11 @@ public class Movement : MonoBehaviour
     [SerializeField] float moveSpeed = 10f;
     [SerializeField] Transform orientation;
     CharacterController controller;
-    Vector2 movementInput;
     Vector3 moveDirection;
-    public void MovePlayer(Vector2 movementInput)
+    public void MovePlayer(Vector2 movementInput, float deltaTime)
     {
         moveDirection = (orientation.forward * movementInput.y) + (orientation.right * movementInput.x);
-        controller.Move(Time.deltaTime * moveSpeed * moveDirection.normalized);
+        controller.Move(deltaTime * moveSpeed * moveDirection.normalized);
     }
     #endregion
 
@@ -54,12 +53,12 @@ public class Movement : MonoBehaviour
 
     [SerializeField] float groundDetectionRadius = 1;
     [SerializeField] Vector3 groundCheckOffset;
-    public void HandleGravity()
+    public void HandleGravity(float deltaTime)
     {
         Collider[] groundCheck = Physics.OverlapSphere(transform.position + groundCheckOffset, groundDetectionRadius, groundMask);
         if (groundCheck.Length == 0)
         {
-            controller.Move(Time.deltaTime * 9.81f * Vector3.down);
+            controller.Move(deltaTime * 9.81f * Vector3.down);
         }
     }
     #endregion
