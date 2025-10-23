@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Fusion;
 using Fusion.Sockets;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -43,15 +44,26 @@ public class InputProvider : SimulationBehaviour, INetworkRunnerCallbacks
         inputActions.Overworld.Enable();
         Runner.AddCallbacks(this);
     }
+    Vector2 mouseInput;
+    Vector2 controllerInput;
+    void Update()
+    {
+        if (inputActions != null)
+        {
+            mouseInput += inputActions.Overworld.Camera.ReadValue<Vector2>(); ;
+            controllerInput += inputActions.Overworld.Move.ReadValue<Vector2>(); ;
+        }
+    }
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         InputSystem.Update();
         CustomInput customInput = new CustomInput();
-        var playerInput = inputActions.Overworld;
-
-        customInput.cameraMove = playerInput.Camera.ReadValue<Vector2>();
-        customInput.playerMove = playerInput.Move.ReadValue<Vector2>();
+        
+        customInput.cameraMove = mouseInput;
+        customInput.playerMove = controllerInput;
+        mouseInput = Vector2.zero;
+        controllerInput = Vector2.zero;
 
         input.Set<CustomInput>(customInput);
     }

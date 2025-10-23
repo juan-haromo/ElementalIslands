@@ -16,7 +16,8 @@ public class Player : NetworkBehaviour
 
     void Update()
     {
-        
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public override void FixedUpdateNetwork()
