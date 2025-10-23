@@ -18,7 +18,6 @@ public class InputProvider : SimulationBehaviour, INetworkRunnerCallbacks
 
     public IEnumerator WaitForRunner()
     {
-        Debug.Log("waiting");
         while (Runner == null)
         {
             yield return null;

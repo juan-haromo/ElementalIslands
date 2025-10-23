@@ -10,12 +10,6 @@ public class Player : NetworkBehaviour
     [SerializeField] Inventory inventory;
     void Awake()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
-    }
-
-    void Update()
-    {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -30,5 +24,4 @@ public class Player : NetworkBehaviour
         movement.MovePlayer(networkInput.playerMove, Runner.DeltaTime);
         movement.HandleGravity(Runner.DeltaTime);
     }
-
 }
