@@ -42,9 +42,11 @@ public class InputProvider : SimulationBehaviour, INetworkRunnerCallbacks
         inputActions = new PlayerInput();
         inputActions.Overworld.Enable();
         Runner.AddCallbacks(this);
+        inputActions.Overworld.Attack.performed += context => { attacked = true;};
     }
     Vector2 mouseInput;
     Vector2 controllerInput;
+    bool attacked;
     void Update()
     {
         if (inputActions != null)
@@ -61,8 +63,11 @@ public class InputProvider : SimulationBehaviour, INetworkRunnerCallbacks
         
         customInput.cameraMove = mouseInput;
         customInput.playerMove = controllerInput;
+        customInput.attacked = attacked;
+
         mouseInput = Vector2.zero;
         controllerInput = Vector2.zero;
+        attacked = false;
 
         input.Set<CustomInput>(customInput);
     }
@@ -164,4 +169,5 @@ public struct CustomInput : INetworkInput
 {
     public Vector2 cameraMove;
     public Vector2 playerMove;
+    public bool attacked;
 }

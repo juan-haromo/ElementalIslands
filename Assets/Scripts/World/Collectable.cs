@@ -1,16 +1,31 @@
+using Fusion;
 using UnityEngine;
 
 public class Collectable : MonoBehaviour, IDamageable
 {
     [SerializeField] int itemID;
-    [SerializeField] int amount;
-    public void Damage(GameObject damager)
+    [Networked,OnChangedRender(nameof(HealthChange))]
+    public float Health { get; set; } = 15;
+
+    [Rpc(RpcSources.All,RpcTargets.StateAuthority)]
+    public void RPC_Damage(float damage)
     {
-        if(damager.TryGetComponent<Inventory>(out Inventory inventory))
+        Debug.Log("Damaged RPC");
+        Health -= damage;
+    }
+
+    public void Damage(float damager)
+    {
+        Debug.Log("Damaged NOT RPC");
+        RPC_Damage(damager);
+    }
+
+    void HealthChange()
+    {
+        Debug.Log("HealthChanged " + Health);
+       if(Health < 0)
         {
-            Debug.Log(name + " was damaged by " + damager);
-            inventory.AddResource(itemID, amount);
             gameObject.SetActive(false);
-        }
+        } 
     }
 }
