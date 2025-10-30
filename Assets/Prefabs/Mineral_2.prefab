@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collectable
   itemID: 2
-  amount: 10
+  _Health: 15
 --- !u!114 &3276521231405389771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,5 +143,6 @@ MonoBehaviour:
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: 7063239458528572328}
   ForceRemoteRenderTimeframe: 0

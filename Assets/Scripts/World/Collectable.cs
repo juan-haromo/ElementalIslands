@@ -1,13 +1,13 @@
 using Fusion;
 using UnityEngine;
 
-public class Collectable : MonoBehaviour, IDamageable
+public class Collectable : NetworkBehaviour, IDamageable
 {
     [SerializeField] int itemID;
     [Networked,OnChangedRender(nameof(HealthChange))]
     public float Health { get; set; } = 15;
 
-    [Rpc(RpcSources.All,RpcTargets.StateAuthority)]
+    [Rpc(RpcSources.All,RpcTargets.All)]
     public void RPC_Damage(float damage)
     {
         Debug.Log("Damaged RPC");

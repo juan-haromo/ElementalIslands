@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
-using Fusion.Sockets;
 using UnityEngine;
 
 public class MineralSpawn : NetworkBehaviour
@@ -10,36 +9,22 @@ public class MineralSpawn : NetworkBehaviour
 
     [SerializeField] List<Transform> spawnPoints;
 
-    void Awake()
+    public override void Spawned()
     {
-        StartCoroutine(WaitForServerSetUp());
-    }
-
-    IEnumerator WaitForServerSetUp()
-    {
-        while (Runner == null)
+        base.Spawned();
+        if (Runner.IsSharedModeMasterClient)
         {
-            Debug.Log("Waiting for server");
-            yield return null;
-        }
-        Debug.Log("Server running");
-        if (Runner.IsServer)
-        {
-            Debug.Log("Mineral spawned");
-            SpawnMinerals();
-        }
-        else
-        {
-            Debug.Log("No minerals?");
+            RPC_SpawnMinerals();
         }
     }
 
-    public void SpawnMinerals()
+    [Rpc(RpcSources.All,RpcTargets.All)]
+    public void RPC_SpawnMinerals()
     {
         foreach (Transform point in spawnPoints)
         {
-            int mineralIndex = Random.Range(0, spawnPoints.Count);
-            Runner.Spawn(spawnPoints[mineralIndex].gameObject, point.position, point.rotation);
+            int mineralIndex = Random.Range(0, minerals.Count);
+            Runner.Spawn(minerals[mineralIndex].gameObject, point.position, point.rotation);
         }
     }
 }
