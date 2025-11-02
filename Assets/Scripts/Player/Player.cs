@@ -4,8 +4,8 @@ using UnityEngine;
 public class Player : NetworkBehaviour
 {
     
-    [SerializeField] Weapon weapon;
-    [SerializeField] Movement movement;
+    public PlayerWeapon weapon;
+    public Movement movement;
     [SerializeField] Inventory inventory;
     [SerializeField] Transform hitStart;
     [SerializeField] float hitRadius;
@@ -30,21 +30,7 @@ public class Player : NetworkBehaviour
         if (networkInput.attacked)
         {
             attack = false;
-            Debug.Log("Attacking");
-
-            Collider[] collided = new Collider[10]; 
-            Runner.GetPhysicsScene().OverlapSphere(hitStart.position, hitRadius, collided, hitmask,QueryTriggerInteraction.Collide);
-            Debug.Log(collided.Length);
-            foreach (Collider col in collided)
-            {
-                if(col == null){ Debug.Log("No more colliders"); break; }
-                if (col.TryGetComponent<IDamageable>(out IDamageable damageable))
-                {
-                    Debug.Log("damage component");
-
-                    damageable.Damage(10);
-                }
-            }
+            weapon.Attack();
         }
     }
 }

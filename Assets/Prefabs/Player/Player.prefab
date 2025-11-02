@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 1550907537606407264}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.08, z: 0.505}
+  m_LocalPosition: {x: 0, y: 0.08, z: 0.883}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -316,6 +316,7 @@ GameObject:
   - component: {fileID: 8511021432919838100}
   - component: {fileID: 6649621283501053673}
   - component: {fileID: 7111407810808822422}
+  - component: {fileID: 2187136104468859759}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -453,6 +454,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   hitStart: {fileID: 2623299071567405969}
   hitRadius: 10
+  owner: {fileID: 9009559351639410364}
+  _CurrentWeapon: 1
 --- !u!114 &7336065993397433389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,6 +513,7 @@ MonoBehaviour:
   - {fileID: 9009559351639410364}
   - {fileID: 4702588651223280644}
   - {fileID: 7111407810808822422}
+  - {fileID: 2187136104468859759}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &7111407810808822422
 MonoBehaviour:
@@ -528,3 +532,16 @@ MonoBehaviour:
   SyncParent: 0
   _autoAOIOverride: 1
   DisableSharedModeInterpolation: 1
+--- !u!114 &2187136104468859759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5758069446081689045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d218f5fa15d9f04ebd08fb1e3e03117, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 100

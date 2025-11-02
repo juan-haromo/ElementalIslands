@@ -12,12 +12,7 @@ public class PlayerSpawner : SimulationBehaviour, IPlayerJoined
     {
         if (Runner.LocalPlayer == player)
         {
-            Debug.Log(player + " joined");
-            int i = Random.Range(0, startPoints.Count);
-            Debug.Log("Random number picked between 0 and " + startPoints.Count + " is " + i);
-            Vector3 spawnPos = startPoints[i].position;
-            Debug.Log(spawnPos);
-            NetworkObject newPlayer = Runner.Spawn(playerPrefab, spawnPos, playerPrefab.transform.rotation, player);
+            NetworkObject newPlayer = Runner.Spawn(playerPrefab, new Vector3(0,2,0), playerPrefab.transform.rotation, player);
             levelCamera.gameObject.SetActive(false);
             newPlayer.GetComponentInChildren<Camera>(true).gameObject.SetActive(true);
         }

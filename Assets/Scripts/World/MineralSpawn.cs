@@ -1,30 +1,27 @@
-using System.Collections;
 using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
 
 public class MineralSpawn : NetworkBehaviour
 {
-    [SerializeField] List<Collectable> minerals;
+    [SerializeField] GameObject mineral;
 
-    [SerializeField] List<Transform> spawnPoints;
+    [SerializeField] List<Transform> spawnPoint;
+    
 
     public override void Spawned()
     {
         base.Spawned();
-        if (Runner.IsSharedModeMasterClient)
-        {
-            RPC_SpawnMinerals();
-        }
+        Debug.Log(Runner.IsSharedModeMasterClient ? "Master" : "Peasant");
+        Runner.Spawn(mineral, new Vector3(3, 3, 3), Quaternion.identity);
     }
 
     [Rpc(RpcSources.All,RpcTargets.All)]
     public void RPC_SpawnMinerals()
     {
-        foreach (Transform point in spawnPoints)
+        foreach(Transform point in spawnPoint)
         {
-            int mineralIndex = Random.Range(0, minerals.Count);
-            Runner.Spawn(minerals[mineralIndex].gameObject, point.position, point.rotation);
+            Runner.Spawn(mineral, point.position, point.rotation);            
         }
     }
 }

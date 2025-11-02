@@ -18,7 +18,7 @@ public class Movement : MonoBehaviour
 
     #region Camera
     [Header("Camera")]
-    [SerializeField] Transform playerCamera;
+    public Transform playerCamera;
     [SerializeField] float senseX;
     [SerializeField] float senseY;
     float yRotation;
