@@ -4,24 +4,28 @@ using UnityEngine;
 
 public class MineralSpawn : NetworkBehaviour
 {
-    [SerializeField] GameObject mineral;
-
-    [SerializeField] List<Transform> spawnPoint;
-    
+    [SerializeField] List<GameObject> Minerals;
+    [Networked, OnChangedRender(nameof(OnActiveMineralChange))]
+    int ActiveMineral { get; set; } = 0;
 
     public override void Spawned()
     {
         base.Spawned();
-        Debug.Log(Runner.IsSharedModeMasterClient ? "Master" : "Peasant");
-        Runner.Spawn(mineral, new Vector3(3, 3, 3), Quaternion.identity);
+        if(!Runner.IsSharedModeMasterClient){ OnActiveMineralChange(); return; }
+        SpawnMineral();
+    }
+    public void SpawnMineral()
+    {
+        if (!Runner.IsSharedModeMasterClient) { return; }
+        ActiveMineral = Random.Range(0, Minerals.Count);
     }
 
-    [Rpc(RpcSources.All,RpcTargets.All)]
-    public void RPC_SpawnMinerals()
+    void OnActiveMineralChange()
     {
-        foreach(Transform point in spawnPoint)
+        foreach (GameObject g in Minerals)
         {
-            Runner.Spawn(mineral, point.position, point.rotation);            
+            g.SetActive(false);
         }
+        Minerals[ActiveMineral].SetActive(true);
     }
 }
