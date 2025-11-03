@@ -1,5 +1,7 @@
+using System;
 using UnityEngine.AI;
 
+[Serializable]
 public class StateMachine
 {
 
@@ -10,7 +12,7 @@ public class StateMachine
     }
 
     public State CurrentState { get; private set; }
-    
+
     public void Initialize(State initialState)
     {
         CurrentState = initialState;

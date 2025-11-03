@@ -6,10 +6,6 @@ using UnityEngine.AI;
 public class Wander : State
 {
     [SerializeField] float wanderRadius;
-    [SerializeField] float pointStopDistance;
-
-    [SerializeField] float minWaitTime;
-    [SerializeField] float maxWaitTime;
     [SerializeField] string wanderPointKey;
 
     public override void Enter(FSMController controller)

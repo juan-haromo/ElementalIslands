@@ -13,14 +13,18 @@ public class FSMController : NetworkBehaviour
     {
         base.Spawned();
         if (!Runner.IsSharedModeMasterClient) { return; }
+        Agent = GetComponent<NavMeshAgent>();
         StateMachine = new StateMachine(this);
         Board = new BlackBoard();
         StateMachine.Initialize(initialState);
     }
 
-    void Update()
+    public override void FixedUpdateNetwork()
     {
+        base.FixedUpdateNetwork();
+        if(Runner == null){ return; }
         if (!Runner.IsSharedModeMasterClient) { return; }
         StateMachine.CurrentState.TickUpdate(this);
+        StateMachine.CurrentState.CheckTransitions(this);
     }
 }

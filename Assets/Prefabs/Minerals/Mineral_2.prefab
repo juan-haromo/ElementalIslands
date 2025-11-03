@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8869811627214873643}
   - component: {fileID: 7063239458528572328}
   - component: {fileID: 3276521231405389771}
+  - component: {fileID: 1510219452453171837}
   m_Layer: 0
   m_Name: Mineral_2
   m_TagString: Untagged
@@ -126,7 +127,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collectable
   itemID: 2
+  maxHealth: 0
   _Health: 15
+  spawn: {fileID: 0}
 --- !u!114 &3276521231405389771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,3 +149,23 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 7063239458528572328}
   ForceRemoteRenderTimeframe: 0
+--- !u!114 &1510219452453171837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1579955309390104740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
