@@ -11,6 +11,7 @@ using UnityEngine.InputSystem;
 public class InputProvider : SimulationBehaviour, INetworkRunnerCallbacks
 {
     private PlayerInput inputActions;
+   
     void Awake()
     {
         
@@ -42,17 +43,21 @@ public class InputProvider : SimulationBehaviour, INetworkRunnerCallbacks
         inputActions = new PlayerInput();
         inputActions.Overworld.Enable();
         Runner.AddCallbacks(this);
-        inputActions.Overworld.Attack.performed += context => { attacked = true;};
+        inputActions.Overworld.Attack.performed += context => { attacked = true; };
     }
     Vector2 mouseInput;
     Vector2 controllerInput;
     bool attacked;
+    float wheelInput;
+    bool nextWeapon;
+    bool prevWeapon;
     void Update()
     {
         if (inputActions != null)
         {
-            mouseInput += inputActions.Overworld.Camera.ReadValue<Vector2>(); ;
-            controllerInput += inputActions.Overworld.Move.ReadValue<Vector2>(); ;
+            mouseInput += inputActions.Overworld.Camera.ReadValue<Vector2>();
+            controllerInput += inputActions.Overworld.Move.ReadValue<Vector2>();
+            wheelInput += inputActions.Overworld.WeaponChange.ReadValue<float>();
         }
     }
 
@@ -65,8 +70,20 @@ public class InputProvider : SimulationBehaviour, INetworkRunnerCallbacks
         customInput.playerMove = controllerInput;
         customInput.attacked = attacked;
 
+        if (wheelInput < 0)
+        {
+            customInput.prevWeapon = true;
+            customInput.nextWeapon = false;
+        }
+        if (0 < wheelInput)
+        {
+            customInput.prevWeapon = false;
+            customInput.nextWeapon = true;
+        }
+
         mouseInput = Vector2.zero;
         controllerInput = Vector2.zero;
+        wheelInput = 0;
         attacked = false;
 
         input.Set<CustomInput>(customInput);
@@ -170,4 +187,6 @@ public struct CustomInput : INetworkInput
     public Vector2 cameraMove;
     public Vector2 playerMove;
     public bool attacked;
+    public bool nextWeapon;
+    public bool prevWeapon;
 }

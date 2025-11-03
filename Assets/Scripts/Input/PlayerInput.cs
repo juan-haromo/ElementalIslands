@@ -118,6 +118,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WeaponChange"",
+                    ""type"": ""Value"",
+                    ""id"": ""a7ece0ed-164e-4240-a814-9f19e9d169d1"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -230,6 +239,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b07fe6fc-1716-4518-b1f1-a3ebff15783b"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WeaponChange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -241,6 +261,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Overworld_Move = m_Overworld.FindAction("Move", throwIfNotFound: true);
         m_Overworld_Camera = m_Overworld.FindAction("Camera", throwIfNotFound: true);
         m_Overworld_Attack = m_Overworld.FindAction("Attack", throwIfNotFound: true);
+        m_Overworld_WeaponChange = m_Overworld.FindAction("WeaponChange", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -324,6 +345,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Overworld_Move;
     private readonly InputAction m_Overworld_Camera;
     private readonly InputAction m_Overworld_Attack;
+    private readonly InputAction m_Overworld_WeaponChange;
     /// <summary>
     /// Provides access to input actions defined in input action map "Overworld".
     /// </summary>
@@ -347,6 +369,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Overworld/Attack".
         /// </summary>
         public InputAction @Attack => m_Wrapper.m_Overworld_Attack;
+        /// <summary>
+        /// Provides access to the underlying input action "Overworld/WeaponChange".
+        /// </summary>
+        public InputAction @WeaponChange => m_Wrapper.m_Overworld_WeaponChange;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -382,6 +408,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @WeaponChange.started += instance.OnWeaponChange;
+            @WeaponChange.performed += instance.OnWeaponChange;
+            @WeaponChange.canceled += instance.OnWeaponChange;
         }
 
         /// <summary>
@@ -402,6 +431,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @WeaponChange.started -= instance.OnWeaponChange;
+            @WeaponChange.performed -= instance.OnWeaponChange;
+            @WeaponChange.canceled -= instance.OnWeaponChange;
         }
 
         /// <summary>
@@ -463,5 +495,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAttack(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "WeaponChange" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnWeaponChange(InputAction.CallbackContext context);
     }
 }

@@ -18,6 +18,18 @@ public class PlayerWeapon : NetworkBehaviour
     [Rpc(RpcSources.All, RpcTargets.InputAuthority)]
     void RPC_Attack()
     {
-        WeaponManager.Instance.Attack(CurrentWeapon,owner);
+        WeaponManager.Instance.Attack(CurrentWeapon, owner);
+    }
+
+    public void NextWeapon()
+    {
+        Debug.Log("next");
+        CurrentWeapon = (CurrentWeapon + WeaponManager.Instance.totalWeapons - 1) % WeaponManager.Instance.totalWeapons;
+    }
+    
+    public void PreviousWeapon()
+    {
+        Debug.Log("previous");
+        CurrentWeapon = (CurrentWeapon + 1) % WeaponManager.Instance.totalWeapons;
     }
 }

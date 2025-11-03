@@ -19,6 +19,7 @@ public class WeaponManager : MonoBehaviour
     }
 
     [SerializeField] List<Weapon> weapons;
+    public int totalWeapons => weapons.Count;
 
     public void Attack(int weaponID, Player player)
     {

@@ -10,11 +10,16 @@ public class Player : NetworkBehaviour
     [SerializeField] Transform hitStart;
     [SerializeField] float hitRadius;
     [SerializeField] LayerMask hitmask;
-    bool attack = false;
     void Awake()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    public override void Spawned()
+    {
+        base.Spawned();
+
     }
 
     public override void FixedUpdateNetwork()
@@ -29,8 +34,17 @@ public class Player : NetworkBehaviour
 
         if (networkInput.attacked)
         {
-            attack = false;
             weapon.Attack();
+        }
+
+        if (networkInput.prevWeapon)
+        {
+            weapon.PreviousWeapon();
+        }
+
+        if (networkInput.nextWeapon)
+        {
+            weapon.NextWeapon();
         }
     }
 }
