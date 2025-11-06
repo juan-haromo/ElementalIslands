@@ -12,8 +12,10 @@ public class FSMController : NetworkBehaviour
     public override void Spawned()
     {
         base.Spawned();
-        if (!Runner.IsSharedModeMasterClient) { return; }
         Agent = GetComponent<NavMeshAgent>();
+        Agent.enabled = false;
+        if (!Runner.IsSharedModeMasterClient) { return; }
+        Agent.enabled = true;
         StateMachine = new StateMachine(this);
         Board = new BlackBoard();
         StateMachine.Initialize(initialState);
@@ -22,7 +24,12 @@ public class FSMController : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
-        if(Runner == null){ return; }
+
+    }
+
+    void Update()
+    {
+        if (Runner == null) { return; }
         if (!Runner.IsSharedModeMasterClient) { return; }
         StateMachine.CurrentState.TickUpdate(this);
         StateMachine.CurrentState.CheckTransitions(this);
